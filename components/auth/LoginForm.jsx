@@ -9,10 +9,14 @@ const LoginForm = () => {
   const router = useRouter();
   // Handle form submission
   const handleSubmit = async (e) => {
+    console.log("clicked");
+
     try {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const response = await handleCredentialsLogin(formData);
+
+      console.log("clicked 2");
 
       if (!!response.error) {
         setError(response.error);
@@ -25,21 +29,24 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="login-form">
-      <div>
-        <label htmlFor="email">Email Address</label>
-        <input type="email" name="email" id="email" />
-      </div>
+    <>
+      <div className="text-red-500 mt-2">{error && error}</div>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div>
+          <label htmlFor="email">Email Address</label>
+          <input type="email" name="email" id="email" />
+        </div>
 
-      <div>
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" />
-      </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input type="password" name="password" id="password" />
+        </div>
 
-      <button type="submit" className="btn-primary w-full mt-4">
-        Login
-      </button>
-    </form>
+        <button type="submit" className="btn-primary w-full mt-4">
+          Login
+        </button>
+      </form>
+    </>
   );
 };
 
