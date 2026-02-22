@@ -47,7 +47,7 @@ export async function uploadAndUpdateProfileImage(formData) {
     await userModel.findOneAndUpdate(
       { email: email },
       { image: newImageUrl },
-      { new: true },
+      { returnDocument: "after" },
     );
 
     return { success: true, imageUrl: newImageUrl };
