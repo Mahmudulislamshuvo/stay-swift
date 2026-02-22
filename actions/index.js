@@ -1,6 +1,8 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
+import { dbConnect } from "@/lib/mongoDb";
+import { userModel } from "@/models/userModel";
 
 const handleCredentialsLogin = async (formData) => {
   try {
@@ -15,4 +17,25 @@ const handleCredentialsLogin = async (formData) => {
   }
 };
 
-export { handleCredentialsLogin };
+const handleProfileImageUpload = async (formData) => {
+  await dbConnect();
+  const authResult = await auth();
+  const loggesUserEmail = authResult?.user?.email;
+  if (!formData.has("image")) return;
+  try {
+    const findUser = await userModel.findOne({ email: loggesUserEmail });
+
+    if (!findUser) {
+      throw new Error("User not found");
+    }
+
+    findUser.image = formData.get("image").buffer;
+    await findUser.save();
+
+    const file = formData.get("image");
+  } catch (error) {
+    throw new Error("Failed to upload image");
+  }
+};
+
+export { handleCredentialsLogin, handleProfileImageUpload };

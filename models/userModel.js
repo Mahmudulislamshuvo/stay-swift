@@ -15,6 +15,9 @@ const UserSchema = new Schema({
     required: true,
     min: 8,
   },
+  image: {
+    type: String,
+  },
 });
 
 export const userModel =
