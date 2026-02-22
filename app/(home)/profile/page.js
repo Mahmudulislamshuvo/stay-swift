@@ -6,14 +6,6 @@ export default async function ProfilePage() {
   const session = await auth();
 
   const dbUser = await userModel.findOne({ email: session.user.email }).lean();
-  // Static user data (Read-only)
-  const user = {
-    name: "Sumit Saha",
-    email: "sumitsaha@gmail.com",
-    phone: "+880 1234 567890",
-    memberSince: "December 2021",
-    initial: "S",
-  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
@@ -24,11 +16,7 @@ export default async function ProfilePage() {
 
         <div className="px-8 pb-12">
           {/* Editable Avatar Section */}
-          <ProfileImage
-            initialUser={user}
-            session={session}
-            currentImageUrl={dbUser?.image}
-          />
+          <ProfileImage session={session} currentImageUrl={dbUser?.image} />
 
           {/* User Primary Info */}
           <div className="text-center mb-10">

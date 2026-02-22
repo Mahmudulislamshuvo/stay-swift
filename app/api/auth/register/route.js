@@ -11,7 +11,7 @@ export const POST = async (request, _response) => {
 
   const newUser = {
     name: `${fname} ${lname}`,
-    email,
+    email: email.toLowerCase(),
     password: hashPassword,
   };
 

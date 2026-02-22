@@ -6,6 +6,7 @@ import { dbConnect } from "./lib/mongoDb";
 import client from "./lib/mongo-serverPromise";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { userModel } from "./models/userModel";
+import bcrypt from "bcrypt";
 
 export const {
   handlers: { GET, POST },
@@ -33,26 +34,34 @@ export const {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // In a real app, you would verify credentials against a database
         if (credentials === null) return null;
         await dbConnect();
 
         const { email, password } = credentials;
         try {
-          const user = await userModel.findOne({ email: email });
+          const user = await userModel.findOne({ email: email.toLowerCase() }).lean();
 
           if (user) {
-            const isMatch = user.password === password;
+            const isMatch = await bcrypt.compare(
+              password,
+              user.password,
+            );
+
             if (isMatch) {
-              return user;
+              return {
+                id: user._id.toString(),
+                name: user.name,
+                email: user.email,
+                image: user.image,
+              };
             } else {
-              throw new Error("Invalid password");
+              throw new Error("Invalid password or email");
             }
           } else {
             throw new Error("No user found with this email");
           }
         } catch (error) {
-          throw new Error(error);
+          throw new Error(error.message || "Authentication failed");
         }
       },
     }),

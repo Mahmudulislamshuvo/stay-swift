@@ -9,14 +9,10 @@ const LoginForm = () => {
   const router = useRouter();
   // Handle form submission
   const handleSubmit = async (e) => {
-    console.log("clicked");
-
     try {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const response = await handleCredentialsLogin(formData);
-
-      console.log("clicked 2");
 
       if (!!response.error) {
         setError(response.error);
