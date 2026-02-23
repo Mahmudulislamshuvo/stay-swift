@@ -1,3 +1,4 @@
+import Link from "next/link";
 import HotelSummaryInfo from "./HotelSummaryInfo";
 
 import Images from "./Images";
