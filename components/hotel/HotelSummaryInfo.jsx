@@ -1,6 +1,6 @@
-const HotelSummaryInfo = ({ fromListPage, hotel }) => {
-  console.log(hotel);
+import HotellRating from "./HotellRating";
 
+const HotelSummaryInfo = ({ fromListPage, hotel }) => {
   return (
     <>
       <div className={fromListPage ? "flex-1" : "flex-1 container"}>
@@ -11,11 +11,11 @@ const HotelSummaryInfo = ({ fromListPage, hotel }) => {
         </h2>
         <p>{hotel?.city}</p>
         <div className="flex gap-2 items-center my-4">
-          <div className="bg-primary w-[35px] h-[35px] rounded-sm text-white grid place-items-center font-bold">
-            4.3
-          </div>
-          <span className="font-medium">Very Good</span>
+          <HotellRating id={hotel?.id} />
           <span>232 Reviews</span>
+        </div>
+        <div className="bg-yellow-300 py-1 px-3 rounded-md w-1/3">
+          {hotel?.propertyCategory} Star Property
         </div>
       </div>
 
@@ -25,9 +25,9 @@ const HotelSummaryInfo = ({ fromListPage, hotel }) => {
         </h2>
         <p className=" text-right">Per Night for 1 Rooms</p>
         {fromListPage ? (
-          <button className="btn-primary ">Details</button>
+          <button className="btn-primary">Details</button>
         ) : (
-          <button className="btn-primary ">Book</button>
+          <button className="btn-primary">Book</button>
         )}
       </div>
     </>
