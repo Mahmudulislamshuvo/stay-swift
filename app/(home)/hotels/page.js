@@ -2,6 +2,8 @@ import HotelList from "@/components/hotel/HotelList";
 import Filter from "@/components/search/Filter";
 import Search from "@/components/search/Search";
 
+export const dynamic = "force-dynamic";
+
 const HotelsPage = () => {
   return (
     <>
