@@ -7,11 +7,15 @@ import {
 } from "@/utils/data-util";
 
 import { dbConnect } from "@/lib/mongoDb";
+import { bookingModel } from "@/models/booking-model";
 
-export async function getAllHotels() {
+export async function getAllHotels(destination, checkin, checkout) {
   await dbConnect();
-  const hotels = await hotelModel
-    .find()
+
+  const regex = new RegExp(destination, "i"); // Case-insensitive regex for matching destination
+
+  const hotelsByDestination = await hotelModel
+    .find({ city: { $regex: regex } })
     .select([
       "thumbNailUrl",
       "name",
@@ -22,7 +26,28 @@ export async function getAllHotels() {
     ])
     .lean();
 
-  return replaceMongoIdInArray(hotels);
+  let allHotels = hotelsByDestination;
+
+  if (checkin && checkout) {
+    //
+  }
+
+  return replaceMongoIdInArray(hotelsByDestination);
+}
+
+async function findBooking(hotelId, checkin, checkout) {
+  const matchBooking = await bookingModel
+    .find({ hotelId: hotelId.toString() })
+    .lean(); // return a arreay of booking for a hotel
+
+  const found = matchBooking.find((booking) => {
+    return (
+      isDateInBetween(checkin, booking.checkin, booking.checkout) ||
+      isDateInBetween(checkout, booking.checkin, booking.checkout)
+    );
+  });
+
+  return found;
 }
 
 export async function getHotelById(hotelId) {
