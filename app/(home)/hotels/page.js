@@ -4,12 +4,17 @@ import Search from "@/components/search/Search";
 
 export const dynamic = "force-dynamic";
 
-const HotelsPage = () => {
+const HotelsPage = ({ searchParams: { destination, checkin, checkout } }) => {
   return (
     <>
       <section className="bg-[url('/hero-bg.jpg')] bg-cover bg-no-repeat bg-center pt-[100px] pb-[60px]">
         <div className="container items-center py-12 ">
-          <Search fromList={true} />
+          <Search
+            fromList={true}
+            destination={destination}
+            checkin={checkin}
+            checkout={checkout}
+          />
         </div>
       </section>
       <section className="py-12">

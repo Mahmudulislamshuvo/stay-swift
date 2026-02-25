@@ -9,7 +9,7 @@ const Search = ({ fromList, destination, checkin, checkout }) => {
   const pathname = usePathname();
 
   const [serachTerm, setSearchTerm] = useState({
-    destination: destination || "dhaka",
+    destination: destination || "Sylhet",
     checkin: checkin,
     checkout: checkout,
   });
@@ -66,10 +66,10 @@ const Search = ({ fromList, destination, checkin, checkout }) => {
                 defaultValue={serachTerm.destination}
               >
                 <option value="Bali">Bali</option>
-                <option value="Bali">Cox's Bazar</option>
-                <option value="Bali">Sylhet</option>
-                <option value="Bali">Saint Martin</option>
-                <option value="Bali">Bali</option>
+                <option value="Cox's Bazar">Cox's Bazar</option>
+                <option value="Sylhet">Sylhet</option>
+                <option value="Saint Martin">Saint Martin</option>
+                <option value="Khulna">Khulna</option>
               </select>
             </h4>
           </div>
