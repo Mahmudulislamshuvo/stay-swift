@@ -3,15 +3,15 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-const Search = ({ fromList }) => {
+const Search = ({ fromList, destination, checkin, checkout }) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
 
   const [serachTerm, setSearchTerm] = useState({
-    destination: "",
-    checkin: "",
-    checkout: "",
+    destination: destination || "dhaka",
+    checkin: checkin,
+    checkout: checkout,
   });
 
   const [allowSearch, setAllowSearch] = useState(true);
@@ -37,6 +37,19 @@ const Search = ({ fromList }) => {
 
   const doSearch = () => {
     const params = new URLSearchParams(serachTerm);
+
+    params.set("destination", serachTerm?.destination);
+
+    if (serachTerm.checkin && serachTerm.checkout) {
+      params.set("checkin", serachTerm?.checkin);
+      params.set("checkout", serachTerm?.checkout);
+    }
+
+    if (pathname.includes("hotels")) {
+      replace(`${pathname}?${params.toString()}`);
+    } else {
+      replace(`${pathname}hotels?${params.toString()}`);
+    }
   };
 
   return (
@@ -50,6 +63,7 @@ const Search = ({ fromList }) => {
                 onChange={handleInputs}
                 name="destination"
                 id="destination"
+                defaultValue={serachTerm.destination}
               >
                 <option value="Bali">Bali</option>
                 <option value="Bali">Cox's Bazar</option>
@@ -67,6 +81,7 @@ const Search = ({ fromList }) => {
                 type="date"
                 name="checkin"
                 id="checkin"
+                defaultValue={serachTerm.checkin}
                 onChange={handleInputs}
               />
             </h4>
@@ -79,6 +94,7 @@ const Search = ({ fromList }) => {
                 type="date"
                 name="checkout"
                 id="checkout"
+                defaultValue={serachTerm.checkout}
                 onChange={handleInputs}
               />
             </h4>
@@ -88,11 +104,7 @@ const Search = ({ fromList }) => {
 
       <button
         disabled={!allowSearch}
-        className={
-          allowSearch
-            ? "search-btn"
-            : "bg-gray-400 cursor-not-allowed search-btn"
-        }
+        className={allowSearch ? "search-btn" : "search-btn-disabled"}
         onClick={doSearch}
       >
         🔍️ {fromList ? "Modify Search" : "Search"}
