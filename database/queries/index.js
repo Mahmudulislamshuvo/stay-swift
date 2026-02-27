@@ -2,6 +2,7 @@ import { hotelModel } from "@/models/hotel-model";
 import { ratingModel } from "@/models/rating-model";
 import { reviewModel } from "@/models/review-model";
 import {
+  isDateInBetween,
   replaceMongoIdInArray,
   replaceMongoIdInObject,
 } from "@/utils/data-util";
@@ -28,11 +29,24 @@ export async function getAllHotels(destination, checkin, checkout) {
 
   let allHotels = hotelsByDestination;
 
+  // If check-in and check-out dates are provided, filter hotels based on availability
   if (checkin && checkout) {
-    //
+    allHotels = await Promise.all(
+      allHotels.map(async (hotel) => {
+        const found = await findBooking(hotel._id, checkin, checkout);
+
+        if (found) {
+          hotel["isBooked"] = true;
+        } else {
+          hotel["isBooked"] = false;
+        }
+
+        return hotel;
+      }),
+    );
   }
 
-  return replaceMongoIdInArray(hotelsByDestination);
+  return replaceMongoIdInArray(allHotels);
 }
 
 async function findBooking(hotelId, checkin, checkout) {
