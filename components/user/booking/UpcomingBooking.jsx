@@ -1,4 +1,4 @@
-import BookingCard from "./bookingCard";
+import BookingCard from "./BookingCard";
 
 const UpcomingBooking = ({ bookings }) => {
   return (

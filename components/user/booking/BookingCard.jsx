@@ -1,9 +1,7 @@
 import { getHotelById } from "@/database/queries";
 import { getDayDifference } from "@/utils/data-util";
 
-const BookingCard = async (hotelId, checkin, checkout) => {
-  console.log(hotelId);
-
+const BookingCard = async ({ hotelId, checkin, checkout }) => {
   const hotelInfo = await getHotelById(hotelId);
   const days = getDayDifference(checkin, checkout);
 

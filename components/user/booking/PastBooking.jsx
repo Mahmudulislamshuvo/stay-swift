@@ -1,8 +1,6 @@
-import BookingCard from "./bookingCard";
+import BookingCard from "./BookingCard";
 
 const PastBooking = ({ bookings }) => {
-  console.log(bookings);
-
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-bold">🕛️ Past Bookings</h2>
@@ -12,7 +10,7 @@ const PastBooking = ({ bookings }) => {
       )}
       {bookings.length > 0 &&
         bookings.map((booking) => (
-          <div key={booking.id} className="bg-[#F6F3E9] p-4 rounded-md">
+          <div key={booking.id} className="bg-[#ebf6e9] p-4 rounded-md">
             <BookingCard
               hotelId={booking?.hotelId}
               checkin={booking?.checkin}
