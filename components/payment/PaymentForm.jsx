@@ -1,6 +1,54 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 const PaymentForm = ({ checkin, checkout, loggedInUser, hotelInfo, cost }) => {
+  const router = useRouter();
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData(e.target);
+
+      const hotelId = hotelInfo?.id;
+      const userId = loggedInUser?.id;
+      const checkin = formData.get("checkin");
+      const checkout = formData.get("checkout");
+
+      if (!hotelId || !userId || !checkin || !checkout) {
+        setError("Missing required fields");
+        return;
+      }
+
+      const response = await fetch("/api/auth/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          hotelId,
+          userId,
+          checkin,
+          checkout,
+        }),
+      });
+
+      if (response.status !== 201) {
+        throw new Error("Payment failed");
+      }
+
+      router.push("/booking");
+
+      // const response = await
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
-    <form className="my-8">
+    <form className="my-8" onSubmit={handleSubmit}>
       <div className="my-4 space-y-2">
         <label htmlFor="name" className="block">
           Name
@@ -46,6 +94,7 @@ const PaymentForm = ({ checkin, checkout, loggedInUser, hotelInfo, cost }) => {
         <input
           type="text"
           id="card"
+          name="card"
           className="w-full border border-[#CCCCCC]/60 py-1 px-2 rounded-md"
         />
       </div>
