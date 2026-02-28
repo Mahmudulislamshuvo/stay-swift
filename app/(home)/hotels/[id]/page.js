@@ -11,7 +11,7 @@ const HotelDetailsPage = async ({
 
   return (
     <>
-      <Summary hotel={singleHotelInfo} />
+      <Summary hotel={singleHotelInfo} checkin={checkin} checkout={checkout} />
       <Gallery gallery={singleHotelInfo?.gallery} />
       <Overview overview={singleHotelInfo?.overview} />
     </>

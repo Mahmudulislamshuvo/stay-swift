@@ -9,6 +9,7 @@ import {
 
 import { dbConnect } from "@/lib/mongoDb";
 import { bookingModel } from "@/models/booking-model";
+import { userModel } from "@/models/userModel";
 
 export async function getAllHotels(destination, checkin, checkout) {
   await dbConnect();
@@ -89,4 +90,9 @@ export async function getReviewsForAHotel(hotelId) {
   const reviews = await reviewModel.find({ hotelId: hotelId }).lean();
   return replaceMongoIdInArray(reviews);
 }
-//
+
+export async function getUserByEmail(email) {
+  await dbConnect();
+  const user = await userModel.findOne({ email: email }).lean();
+  return replaceMongoIdInObject(user);
+}

@@ -1,4 +1,4 @@
-const PaymentForm = ({ checkin, checkout }) => {
+const PaymentForm = ({ checkin, checkout, loggedInUser, hotelInfo, cost }) => {
   return (
     <form className="my-8">
       <div className="my-4 space-y-2">
@@ -9,6 +9,7 @@ const PaymentForm = ({ checkin, checkout }) => {
           type="text"
           id="name"
           className="w-full border border-[#CCCCCC]/60 py-1 px-2 rounded-md"
+          value={loggedInUser?.name}
         />
       </div>
 
@@ -20,6 +21,7 @@ const PaymentForm = ({ checkin, checkout }) => {
           type="email"
           id="email"
           className="w-full border border-[#CCCCCC]/60 py-1 px-2 rounded-md"
+          value={loggedInUser?.email}
         />
       </div>
 
