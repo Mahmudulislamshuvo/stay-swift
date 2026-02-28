@@ -66,8 +66,8 @@ const Search = ({ fromList, destination, checkin, checkout }) => {
                 defaultValue={serachTerm.destination}
               >
                 <option value="Bali">Bali</option>
-                <option value="Cox's Bazar">Cox's Bazar</option>
-                <option value="Sylhet">Sylhet</option>
+                <option value="Puglia">Puglia</option>
+                <option value="Fethiye">Fethiye</option>
                 <option value="Saint Martin">Saint Martin</option>
                 <option value="Khulna">Khulna</option>
               </select>
