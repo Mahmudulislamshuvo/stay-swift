@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import PastBooking from "@/components/user/booking/PastBooking";
 import UpcomingBooking from "@/components/user/booking/UpcomingBooking";
 import ProfileInfo from "@/components/user/ProfileInfo";
+import { getBookingsByUserId, getUserByEmail } from "@/database/queries";
 import { redirect } from "next/navigation";
 
 const BookingPage = async () => {
@@ -9,6 +10,23 @@ const BookingPage = async () => {
   if (!session) {
     redirect("/login");
   }
+
+  const loggedInUser = await getUserByEmail(session?.user?.email);
+
+  const bookings = await getBookingsByUserId(loggedInUser.id);
+
+  const today = new Date().getTime();
+
+  const pastbookings = bookings.filter((booking) => {
+    const checkoutDate = new Date(booking.checkout).getTime();
+    return checkoutDate < today;
+  });
+
+  const upcomingbookings = bookings.filter((booking) => {
+    const checkinDate = new Date(booking.checkin).getTime();
+    return checkinDate > today;
+  });
+
   return (
     <>
       <section className="mt-[100px]">
@@ -19,8 +37,8 @@ const BookingPage = async () => {
       <section>
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <PastBooking />
-            <UpcomingBooking />
+            <PastBooking bookings={pastbookings} />
+            <UpcomingBooking bookings={upcomingbookings} />
           </div>
         </div>
       </section>
