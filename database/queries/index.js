@@ -81,3 +81,4 @@ export async function getReviewsForAHotel(hotelId) {
   const reviews = await reviewModel.find({ hotelId: hotelId }).lean();
   return replaceMongoIdInArray(reviews);
 }
+//
