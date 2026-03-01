@@ -11,7 +11,7 @@ import { dbConnect } from "@/lib/mongoDb";
 import { bookingModel } from "@/models/booking-model";
 import { userModel } from "@/models/userModel";
 
-export async function getAllHotels(destination, checkin, checkout) {
+export async function getAllHotels(destination, checkin, checkout, category) {
   await dbConnect();
 
   const regex = new RegExp(destination, "i"); // Case-insensitive regex for matching destination
@@ -29,6 +29,14 @@ export async function getAllHotels(destination, checkin, checkout) {
     .lean();
 
   let allHotels = hotelsByDestination;
+
+  if (category) {
+    const categoriesToMatch = category.split("|");
+
+    allHotels = allHotels.filter((hotel) => {
+      return categoriesToMatch.includes(hotel.propertyCategory.toString());
+    });
+  }
 
   // If check-in and check-out dates are provided, filter hotels based on availability
   if (checkin && checkout) {
