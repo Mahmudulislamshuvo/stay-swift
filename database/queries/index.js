@@ -11,7 +11,13 @@ import { dbConnect } from "@/lib/mongoDb";
 import { bookingModel } from "@/models/booking-model";
 import { userModel } from "@/models/userModel";
 
-export async function getAllHotels(destination, checkin, checkout, category) {
+export async function getAllHotels(
+  destination,
+  checkin,
+  checkout,
+  category,
+  sort,
+) {
   await dbConnect();
 
   const regex = new RegExp(destination, "i"); // Case-insensitive regex for matching destination
@@ -29,6 +35,19 @@ export async function getAllHotels(destination, checkin, checkout, category) {
     .lean();
 
   let allHotels = hotelsByDestination;
+
+  allHotels = allHotels.map((hotel) => ({
+    ...hotel,
+    avgRate: (hotel.highRate + hotel.lowRate) / 2,
+  }));
+
+  if (sort === "hightolow") {
+    allHotels.sort((a, b) => b.avgRate - a.avgRate);
+  }
+
+  if (sort === "lowtohigh") {
+    allHotels.sort((a, b) => a.avgRate - b.avgRate);
+  }
 
   if (category) {
     const categoriesToMatch = category.split("|");

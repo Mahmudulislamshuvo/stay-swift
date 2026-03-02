@@ -3,7 +3,7 @@ import Filter from "@/components/search/filter/Filter";
 
 import Search from "@/components/search/Search";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 const refinedCategory = (category) => {
   const decodedCategory = decodeURI(category);
@@ -12,7 +12,7 @@ const refinedCategory = (category) => {
 };
 
 const HotelsPage = ({
-  searchParams: { destination, checkin, checkout, category },
+  searchParams: { destination, checkin, checkout, category, sort },
 }) => {
   return (
     <>
@@ -34,6 +34,7 @@ const HotelsPage = ({
             checkin={checkin}
             checkout={checkout}
             category={refinedCategory(category)}
+            sort={sort}
           />
         </div>
       </section>
