@@ -1,4 +1,19 @@
+"use client";
+
+import { useState } from "react";
+
 const FilterByPriceRange = () => {
+  const [selectedRanges, setSelectedRanges] = useState([]);
+
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    if (checked) {
+      setSelectedRanges((prev) => [...prev, name]);
+    } else {
+      setSelectedRanges((prev) => prev.filter((range) => range !== name));
+    }
+  };
+
   return (
     <div>
       <h3 className="font-bold text-lg">Price Range</h3>

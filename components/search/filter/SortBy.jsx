@@ -21,6 +21,7 @@ const SortBy = () => {
       params.delete("sort");
     }
     replace(`${pathname}?${params.toString()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortBy]);
 
   return (
