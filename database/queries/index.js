@@ -1,3 +1,5 @@
+"use server";
+
 import { hotelModel } from "@/models/hotel-model";
 import { ratingModel } from "@/models/rating-model";
 import { reviewModel } from "@/models/review-model";
@@ -148,4 +150,13 @@ export async function getBookingsByUserId(userId) {
   await dbConnect();
   const bookings = await bookingModel.find({ userId: userId }).lean();
   return replaceMongoIdInArray(bookings);
+}
+
+export async function getDestinations(searchTerm) {
+  await dbConnect();
+  const regex = new RegExp(searchTerm, "i");
+  const destinations = await hotelModel.distinct("city", {
+    city: { $regex: regex },
+  });
+  return destinations.slice(0, 5);
 }
