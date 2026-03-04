@@ -8,6 +8,7 @@ const HotelList = async ({
   checkout,
   category,
   sort,
+  pricerange,
 }) => {
   const allHotels = await getAllHotels(
     destination,
@@ -15,6 +16,7 @@ const HotelList = async ({
     checkout,
     category,
     sort,
+    pricerange,
   );
 
   return (

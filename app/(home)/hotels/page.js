@@ -12,7 +12,7 @@ const refinedCategory = (category) => {
 };
 
 const HotelsPage = ({
-  searchParams: { destination, checkin, checkout, category, sort },
+  searchParams: { destination, checkin, checkout, category, sort, pricerange },
 }) => {
   return (
     <>
@@ -35,6 +35,7 @@ const HotelsPage = ({
             checkout={checkout}
             category={refinedCategory(category)}
             sort={sort}
+            pricerange={pricerange}
           />
         </div>
       </section>

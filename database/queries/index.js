@@ -17,6 +17,7 @@ export async function getAllHotels(
   checkout,
   category,
   sort,
+  pricerange,
 ) {
   await dbConnect();
 
@@ -56,6 +57,26 @@ export async function getAllHotels(
       return categoriesToMatch.includes(hotel.propertyCategory.toString());
     });
   }
+
+  // if (pricerange) {
+  //   const priceRangesToMatch = pricerange.split("|");
+
+  //   allHotels = allHotels.filter((hotel) => {
+  //     // some() ব্যবহার করছি যাতে যেকোনো একটি রেঞ্জের সাথে মিলে গেলেই হোটেলটি সিলেক্ট হয়
+  //     return priceRangesToMatch.some((range) => {
+  //       if (range.includes("-")) {
+  //         // যদি রেঞ্জে "-" থাকে (যেমন: 500-1000)
+  //         const [min, max] = range.split("-").map(Number);
+  //         return hotel.avgRate >= min && hotel.avgRate <= max;
+  //       } else if (range.includes("+")) {
+  //         // যদি রেঞ্জে "+" থাকে (যেমন: 3000+)
+  //         const min = Number(range.replace("+", ""));
+  //         return hotel.avgRate >= min;
+  //       }
+  //       return false;
+  //     });
+  //   });
+  // }
 
   // If check-in and check-out dates are provided, filter hotels based on availability
   if (checkin && checkout) {
