@@ -32,7 +32,7 @@ const Navbar = async ({ sideMenu = true }) => {
           </li>
 
           <li>
-            <Link href="/bookings">Bookings</Link>
+            <Link href="/booking">Bookings</Link>
           </li>
 
           <li>
